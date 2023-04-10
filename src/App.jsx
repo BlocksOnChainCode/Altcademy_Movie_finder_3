@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container, Row } from "react-bootstrap";
 import { Home } from "./components/Home";
 
 function App() {
