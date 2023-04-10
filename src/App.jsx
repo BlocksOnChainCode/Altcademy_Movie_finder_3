@@ -6,12 +6,10 @@ import { Container, Row } from "react-bootstrap";
 import { Home } from "./components/Home";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/movie" element={<h1>Movie</h1>} />
+      <Route path="/artist" element={<h1>Artist Details</h1>} />
       <Route path="/404" element={<h1>404</h1>} />
     </Routes>
   );

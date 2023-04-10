@@ -9,11 +9,12 @@ import {
   Col,
   Card,
 } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const CLIENT_ID = "3b8c5cfddbc046f693f29ea1c71060bf";
 const CLIENT_SECRET = "bc8877657c0949ceb9414f7a5bacb1ab";
 
-const Artist = ({ artist }) => {
+const Artist = ({ artist, setSelectedId }) => {
   return (
     <Card style={{ width: "18rem" }}>
       <Card.Img variant="top" src={artist.image} />
@@ -23,7 +24,9 @@ const Artist = ({ artist }) => {
           Some quick example text to build on the card title and make up the
           bulk of the card's content.
         </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Link to={`/artist/`} onClick={(e) => setSelectedId(artist.id)}>
+          Go to artist
+        </Link>
       </Card.Body>
     </Card>
   );
@@ -47,6 +50,7 @@ const Home = () => {
   const [searchInput, setSearchInput] = useState("");
   const [accessToken, setAccessToken] = useState("");
   const [artists, setArtists] = useState([]);
+  const [selectedId, setSelectedId] = useState("");
 
   // ? This useEffect is used to get the access token from the spotify api
   useEffect(() => {
@@ -89,6 +93,20 @@ const Home = () => {
     );
   }
 
+  const handleArtistCall = async (id) => {
+    const response = await fetch(
+      `https://api.spotify.com/v1/artists/${id}/top-tracks?market=US`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+  };
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSearch();
@@ -116,7 +134,7 @@ const Home = () => {
           </InputGroup>
         </Col>
       </Row>
-      <Grid artists={artists} />
+      <Grid artists={artists} handleArtistCall={handleArtistCall} />
     </Container>
   );
 };
